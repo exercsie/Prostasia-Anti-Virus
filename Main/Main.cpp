@@ -6,13 +6,12 @@ int main() {
 	RunningProcesses processes;
 
 	std::string suspiciousProgram;
-	bool found = alert.isSuspicious("victim.exe", suspiciousProgram);
+	bool found = alert.isSuspicious(processes.getRunningProcesses(), suspiciousProgram);
 
 	if(found) {
 		std::string message = suspiciousProgram + " is suspicious, are you sure you want to run it?";
 		alert.alertBox(message.c_str(), "Suspicious program", MB_ICONWARNING | MB_YESNO);
 	}
 
-
-	processes.getRunningProcesses();
+	return 0;
 }

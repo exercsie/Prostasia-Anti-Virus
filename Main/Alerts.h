@@ -11,7 +11,7 @@
 class Alerts {
 public:
 	int alertBox(const char *text, const char *title, UINT flags);
-	bool isSuspicious(const std::string &fileName, std::string &outName);
+	bool isSuspicious(const std::vector<std::string> &fileName, std::string &outName);
 	std::vector<std::string> loadSuspiciousPrograms(const std::string &fileName);
 };
 

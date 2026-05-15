@@ -18,6 +18,9 @@ std::vector<std::string> Alerts::loadSuspiciousPrograms(const std::string& fileN
 
 	while(std::getline(file, line)) {
 		if(!line.empty()) {
+			if(line.back() == '\r') {
+				line.pop_back();
+			}
 			programs.push_back(line);
 		}
 	}
@@ -27,14 +30,21 @@ std::vector<std::string> Alerts::loadSuspiciousPrograms(const std::string& fileN
 	return programs;
 }
 
-bool Alerts::isSuspicious(const std::string &fileName, std::string &outName) {
+bool Alerts::isSuspicious(const std::vector<std::string> &fileName, std::string &outName) {
 	std::vector<std::string> suspicious = loadSuspiciousPrograms("../Resources/Suspicious-Programs.txt");
 
-	for(int i = 0; i < suspicious.size(); i++) {
-		if(suspicious[i] == fileName) {
-			outName = suspicious[i];
-			std::cout << "Found suspicious program running: " << suspicious[i] << std::endl;
-			return true;
+	std::cout << "Loaded " << suspicious.size() << " suspicious programs\n";
+	for(int x = 0; x < suspicious.size(); x++) {
+		std::cout << "Suspicious: [" << suspicious[x] << "]\n";
+	} 
+
+	for(int i = 0; i < fileName.size(); i++) {
+		for(int j = 0; j < suspicious.size(); j++) {
+			if(fileName[i] == suspicious[j]) {
+				outName = suspicious[j];
+				std::cout << "Found suspicious program running: " << suspicious[j] << std::endl;
+				return true;
+			}
 		}
 	}
 
