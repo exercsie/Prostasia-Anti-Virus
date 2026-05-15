@@ -12,4 +12,6 @@
 class RunningProcesses {
 public:
     std::vector<std::string> getRunningProcesses();
+    DWORD getPID(const std::string &process);
+    void killProcess(const std::string &process);
 };

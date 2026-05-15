@@ -17,11 +17,13 @@ int main() {
 			int answer = alert.alertBox(message.c_str(), "Suspicious program", MB_ICONWARNING | MB_YESNO);
 			switch(answer) {
 				case IDYES: {
+
 					break;
 				}
 
 				case IDNO: {
 					v.removeFromVector(temp, suspiciousProgram);
+					std::cout << processes.getPID(suspiciousProgram);
 					break;
 				}
 			}
