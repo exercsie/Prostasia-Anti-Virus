@@ -51,5 +51,9 @@ DWORD RunningProcesses::getPID(const std::string &process) {
 }
 
 void RunningProcesses::killProcess(const std::string &process) {
+    DWORD pid = getPID(process);
 
+    HANDLE p = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
+    TerminateProcess(p, 0);
+    CloseHandle(p);
 }
