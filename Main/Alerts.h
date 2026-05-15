@@ -9,6 +9,7 @@
 
 class Alerts {
 public:
-	int alertBox(const char* text, const char* title, UINT flags);
+	int alertBox(const char *text, const char *title, UINT flags);
+	bool isSuspicious(const char& fileName);
 };
 
