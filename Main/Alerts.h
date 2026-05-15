@@ -1,4 +1,3 @@
-#pragma once
 #include <direct.h>
 #include <windows.h>
 #include <shellapi.h>
