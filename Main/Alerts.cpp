@@ -30,19 +30,11 @@ std::vector<std::string> Alerts::loadSuspiciousPrograms(const std::string& fileN
 	return programs;
 }
 
-bool Alerts::isSuspicious(const std::vector<std::string> &fileName, std::string &outName) {
-	std::vector<std::string> suspicious = loadSuspiciousPrograms("../Resources/Suspicious-Programs.txt");
-
-	std::cout << "Loaded " << suspicious.size() << " suspicious programs\n";
-	for(int x = 0; x < suspicious.size(); x++) {
-		std::cout << "Suspicious: [" << suspicious[x] << "]\n";
-	} 
-
+bool Alerts::isSuspicious(const std::vector<std::string> &fileName, const std::vector<std::string> &suspiciousList, std::string &outName) {
 	for(int i = 0; i < fileName.size(); i++) {
-		for(int j = 0; j < suspicious.size(); j++) {
-			if(fileName[i] == suspicious[j]) {
-				outName = suspicious[j];
-				std::cout << "Found suspicious program running: " << suspicious[j] << std::endl;
+		for(int j = 0; j < suspiciousList.size(); j++) {
+			if(fileName[i] == suspiciousList[j]) {
+				outName = suspiciousList[j];
 				return true;
 			}
 		}

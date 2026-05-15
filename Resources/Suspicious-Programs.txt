@@ -1,3 +1,2 @@
 powershell.exe
 victim.exe
-SearchIndexer.exe
