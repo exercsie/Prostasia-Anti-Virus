@@ -57,3 +57,11 @@ void RunningProcesses::killProcess(const std::string &process) {
     TerminateProcess(p, 0);
     CloseHandle(p);
 }
+
+void RunningProcesses::runOnStartup(const std::string &programName, const std::string &programPath) {
+    HKEY key;
+
+    RegOpenKeyExA(HKEY_CURRENT_USER, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_SET_VALUE, &key);
+    RegSetValueExA(key, programName.c_str(), 0, REG_SZ, (BYTE*)programPath.c_str(), programPath.size() + 1);
+    RegCloseKey(key);
+}

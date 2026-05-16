@@ -14,4 +14,5 @@ public:
     std::vector<std::string> getRunningProcesses();
     DWORD getPID(const std::string &process);
     void killProcess(const std::string &process);
+    void runOnStartup(const std::string &programName, const std::string &programPath);
 };

@@ -1,2 +1,5 @@
 powershell.exe
 victim.exe
+scvhost.exe
+explore.exe
+payload.exe

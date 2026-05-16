@@ -8,8 +8,19 @@ int main() {
 	Vector v;
 	std::string suspiciousProgram;
 
-	std::vector<std::string> suspiciousList = alert.loadSuspiciousPrograms("../Resources/Suspicious-Programs.txt");
+	char exePath[MAX_PATH];
+	GetModuleFileNameA(NULL, exePath, MAX_PATH);
+	std::string exeDir = std::string(exePath);
+	exeDir = exeDir.substr(0, exeDir.find_last_of("\\/"));
+	std::string resourcePath = exeDir + "\\..\\Resources\\Suspicious-Programs.txt";
+
+
+	std::vector<std::string> suspiciousList = alert.loadSuspiciousPrograms(resourcePath);
 	std::vector<std::string> temp = suspiciousList;
+
+	// run on startup
+	processes.runOnStartup("EDR", exePath);
+
 	while(true) {
 		bool found = alert.isSuspicious(processes.getRunningProcesses(), temp, suspiciousProgram);
 		if(found) {
