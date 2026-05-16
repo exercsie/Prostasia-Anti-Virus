@@ -25,7 +25,7 @@ int main() {
 		bool found = alert.isSuspicious(processes.getRunningProcesses(), temp, suspiciousProgram);
 		if(found) {
 			std::string message = suspiciousProgram + " is suspicious, do you want to close it?";
-			int answer = alert.alertBox(message.c_str(), "Suspicious program", MB_ICONWARNING | MB_YESNO);
+			int answer = alert.alertBox(message.c_str(), "Suspicious program", MB_ICONWARNING | MB_TOPMOST | MB_SETFOREGROUND  | MB_YESNO);
 			switch(answer) {
 				case IDYES: {
 					processes.killProcess(suspiciousProgram);

@@ -20,6 +20,7 @@ std::vector<std::string> RunningProcesses::getRunningProcesses() {
 
     CloseHandle(snapshot);
 
+    // dispaly all processes
     /*for(const std::string &process : processes) {
         std::cout << process << std::endl;
     }*/
