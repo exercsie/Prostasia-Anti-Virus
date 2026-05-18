@@ -81,5 +81,7 @@ void RunningProcesses::runOnStartup(const std::string &programName, const std::s
 
     RegOpenKeyExA(HKEY_CURRENT_USER, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_SET_VALUE, &key);
     RegSetValueExA(key, programName.c_str(), 0, REG_SZ, (BYTE*)programPath.c_str(), programPath.size() + 1);
+    //schedule program start to cpu with high priority
+    SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
     RegCloseKey(key);
 }
