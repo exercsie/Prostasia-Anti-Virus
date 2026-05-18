@@ -33,12 +33,29 @@ int main() {
 				}
 
 				case IDNO: {
-					v.removeFromVector(temp, suspiciousProgram);
+					std::string message1 = "Do you want to add an exception to " + suspiciousProgram + " in the future?";
+					int answer1 = alert.alertBox(message1.c_str(), "Suspicious program", MB_ICONQUESTION | MB_TOPMOST | MB_SETFOREGROUND  | MB_YESNO);
+					switch(answer1) {
+						case IDYES: {
+							v.removeFromVector(suspiciousList, suspiciousProgram);
+							v.removeFromVector(temp, suspiciousProgram);
+
+							alert.saveSuspiciousProgram(resourcePath, suspiciousList);
+							break;
+						}
+
+						case IDNO: {
+							v.removeFromVector(temp, suspiciousProgram);
+							break;
+						}
+
+					}
 					break;
 				}
 			}
 		}
 
+		Sleep(1000);
 	}
 
 	return 0;

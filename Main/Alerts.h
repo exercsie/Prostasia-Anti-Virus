@@ -13,13 +13,14 @@ public:
 	int alertBox(const char *text, const char *title, UINT flags);
 	bool isSuspicious(const std::vector<std::string> &fileName, const std::vector<std::string> &suspiciousList, std::string &outName);
 	std::vector<std::string> loadSuspiciousPrograms(const std::string &fileName);
+	void saveSuspiciousProgram(const std::string &path, const std::vector<std::string> &list);
 };
 
 int Alerts::alertBox(const char *text, const char *title, UINT flags) {
 	return MessageBoxA(NULL, text, title, flags);
 }
 
-std::vector<std::string> Alerts::loadSuspiciousPrograms(const std::string& fileName) {
+std::vector<std::string> Alerts::loadSuspiciousPrograms(const std::string &fileName) {
 	std::vector<std::string> programs;
 
 	std::ifstream file(fileName);
@@ -56,4 +57,12 @@ bool Alerts::isSuspicious(const std::vector<std::string> &fileName, const std::v
 	}
 
 	return false;
+}
+
+void Alerts::saveSuspiciousProgram(const std::string &path, const std::vector<std::string> &list) {
+	std::ofstream file(path);
+
+	for(const std::string &program : list) {
+		file << program << std::endl;
+	}
 }
