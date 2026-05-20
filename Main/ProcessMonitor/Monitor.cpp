@@ -10,6 +10,33 @@ void Monitor::runOnStartup(const std::string &programName, const std::string &pr
     RegCloseKey(key);
 }
 
+char* Monitor::getMonitorPath() {
+	RunningProcesses rp;
+    static std::string fullPath;
+    char *exePath = rp.getProstasiaUIPath();
+    
+	std::string exeDir = std::string(exePath);
+	exeDir = exeDir.substr(0, exeDir.find_last_of("\\/"));
+	std::string restOfDir = "\\..\\ProcessMonitor\\Monitor.exe";
+
+    fullPath = exeDir + restOfDir;
+    std::cout << "path: " << fullPath << std::endl;
+
+    return fullPath.data();
+}
+
+bool Monitor::isProgramMonitorRunning() {
+	RunningProcesses rp;
+    std::vector<std::string> proc = rp.getRunningProcesses();
+    for(int i = 0; i < proc.size(); i++) {
+        if("Monitor.exe" == proc[i]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void Monitor::mainAlert() {
 	std::atomic<bool> alertActive = false;
 

@@ -1,8 +1,11 @@
 #include <iostream>
 #include "Menu.h"
 #include "../RunningProcesses.h"
+#include "../ProcessMonitor/Monitor.h"
 void Menu::options() {
     RunningProcesses rp;
+    Monitor m;
+
     int option;
     while(true) {
         std::cout << "-------------------------------\n";
@@ -29,26 +32,23 @@ void Menu::options() {
 
             case 1: {
                 char option[2];
-                bool isCurrentProcessRunning = rp.isProgramMonitorRunning();
+                bool isCurrentProcessRunning = m.isProgramMonitorRunning();
                 if(isCurrentProcessRunning) {
                     std::cout << "Do you want to turn the process monitor off? [Y/n]\n";
                     std::cin >> option;
 
                     if(*option == 'y') {
                         rp.getProstasiaUIPath();
-                    } else if (*option == 'n') {
-                        ShellExecuteA(NULL, "open", rp.getMonitorPath(), NULL, NULL, SW_SHOW);
                     } else {
                         continue;
                     }
+
                 } else {
                     std::cout << "Do you want to turn the process monitor on? [Y/n]\n";
                     std::cin >> option;
 
                     if(*option == 'y') {
-                        continue;
-                    } else if (*option == 'n') {
-                        ShellExecuteA(NULL, "open", rp.getMonitorPath(), NULL, NULL, SW_SHOW);
+                        ShellExecuteA(NULL, "open", m.getMonitorPath(), NULL, NULL, SW_SHOW);
                     } else {
                         continue;
                     }

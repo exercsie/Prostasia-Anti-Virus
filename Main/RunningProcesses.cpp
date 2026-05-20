@@ -1,29 +1,4 @@
 #include "RunningProcesses.h"
-
-bool RunningProcesses::isProgramMonitorRunning() {
-    std::vector<std::string> proc = getRunningProcesses();
-    for(int i = 0; i < proc.size(); i++) {
-        if("Program.exe" == proc[i]) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-char* RunningProcesses::getMonitorPath() {
-    static std::string fullPath;
-    char *exePath = getProstasiaUIPath();
-    
-	std::string exeDir = std::string(exePath);
-	exeDir = exeDir.substr(0, exeDir.find_last_of("\\/"));
-	std::string restOfDir = "\\..\\ProcessMonitor\\Monitor.exe";
-
-    fullPath = exeDir + restOfDir;
-    std::cout << "path: " << fullPath << std::endl;
-    return fullPath.data();
-}
-
 char* RunningProcesses::getProstasiaUIPath() {
     static char exePath[MAX_PATH];
 	GetModuleFileNameA(NULL, exePath, MAX_PATH);

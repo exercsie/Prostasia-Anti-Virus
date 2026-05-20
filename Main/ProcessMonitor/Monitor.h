@@ -19,4 +19,6 @@ class Monitor {
 public:
     void runOnStartup(const std::string &programName, const std::string &programPath);
     void mainAlert();
+    bool isProgramMonitorRunning();
+    char* getMonitorPath();
 };
