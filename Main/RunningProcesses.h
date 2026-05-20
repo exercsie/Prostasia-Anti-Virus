@@ -28,7 +28,6 @@ std::vector<std::string> RunningProcesses::getRunningProcesses() {
 
     PROCESSENTRY32 processEntry;
     processEntry.dwSize = sizeof(processEntry);
-
     if(Process32First(snapshot, &processEntry)) {
         do {
             processes.push_back(processEntry.szExeFile);
