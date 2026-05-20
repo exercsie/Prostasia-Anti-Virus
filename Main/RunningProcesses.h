@@ -17,7 +17,7 @@ public:
     DWORD getPID(const std::string &process);
     void killProcess(const std::string &process);
     void runOnStartup(const std::string &programName, const std::string &programPath);
-    char *programMonitorPath();
-    bool isProgramScanRunning();
-    void runProgramMonitor(const char *programMonitorPath);
+    char* getMonitorPath();
+    char* getProstasiaUIPath();
+    bool isProgramMonitorRunning();
 };

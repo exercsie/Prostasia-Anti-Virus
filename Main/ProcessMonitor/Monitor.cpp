@@ -18,7 +18,7 @@ void Monitor::mainAlert() {
     Alerts alert;
 	std::string suspiciousProgram;
 
-	char *exePath = processes.programMonitorPath();
+	char *exePath = processes.getProstasiaUIPath();
 	std::string exeDir = std::string(exePath);
 	exeDir = exeDir.substr(0, exeDir.find_last_of("\\/"));
 	std::string resourcePath = exeDir + "\\..\\..\\Resources\\Suspicious-Programs.txt";
