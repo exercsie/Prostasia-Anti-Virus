@@ -1,5 +1,5 @@
 victim.exe
 scvhost.exe
-explore.exe
 malware.exe
-powershell.exe
+crash.exe
+prefix.exe

@@ -162,12 +162,14 @@ void Menu::options() {
                 std::cin >> option;
 
                 switch(option) {
+                    bool exeFound;
                     case 0: {
                         break;
                     }
-                    
+
                     case 1: {
                         char result[MAX_PATH];
+                        std::vector<std::string> foundExes;
 
                         std::cout << "Enter path, file name, flags(optional[-dev]): ";
 
@@ -179,20 +181,55 @@ void Menu::options() {
 
                         stream >> path >> fileName >> flags;
 
+                        if(path.size() <= 1) {
+                            std::cout << "Please input a valid path\n";
+                            break;
+                        }
+
+                        if(fileName.size() <= 4 || fileName.substr(fileName.size() - 4) != ".exe") {
+                            std::cout << "Please input a valid .exe\n";
+                            break;
+                        }
+
                         if(path.empty() || fileName.empty()) {
                             std::cout << "Please enter both the path and the file name\n";
                             break;
                         }
 
-                        std::vector<std::string> fileNameVec;
-                        fileNameVec.push_back(fileName);
+                        const std::vector<std::string> fileNameVec = { fileName };
 
-                        sc.findExe(fileNameVec, path, result, flags);
+                        exeFound = sc.findExe(fileNameVec, path, result, flags, foundExes);
+                        if(exeFound) {
+                            char answer;
+                            std::cout << "-------------------------------\n";
+                            std::cout << "Do you want to delete the following file/s [Y/n]:\n";
+                            alert.listSuspiciousFiles(foundExes);
+                            std::cin >> answer;
+                            std::cout << std::endl;
+                            std::cout << "-------------------------------\n";
+
+                            if(answer == 'Y' || answer == 'y') {
+                                std::cout << "Deleting....\n";
+                                for(int i = 0; i < fileNameVec.size(); i++) {
+                                    const std::string &temp = foundExes[i];
+                                    if(DeleteFileA(temp.c_str())) {
+                                        std::cout << "Deleted: " << temp << std::endl;
+                                    } else {
+                                        std::cout << "Failed to delete: " << temp << std::endl;
+                                    }
+                                }
+                                break;
+                            } else {
+                                break;
+                            }
+                        }
+
                         break;
                     }
 
                     case 2: {
                         char result[MAX_PATH];
+                        std::vector<std::string> foundExes;
 
                         std::cout << "Enter path, flags(optional[-dev]): ";
 
@@ -205,11 +242,36 @@ void Menu::options() {
                         stream >> path >> flags;
 
                         if(path.empty()) {
-                            std::cout << "Please enter both the path and the file name\n";
+                            std::cout << "Please enter the path\n";
                             break;
                         }
 
-                        sc.findExe(ld.loadSuspiciousPrograms(ld.loadResourcePath()), path, result, flags);
+                        exeFound = sc.findExe(ld.loadSuspiciousPrograms(ld.loadResourcePath()), path, result, flags, foundExes);
+                        if(exeFound) {
+                            char answer;
+                            std::cout << "-------------------------------\n";
+                            std::cout << "Do you want to delete the following file/s [Y/n]:\n";
+                            alert.listSuspiciousFiles(foundExes);
+                            std::cin >> answer;
+                            std::cout << std::endl;
+                            std::cout << "-------------------------------\n";
+
+                            if(answer == 'Y' || answer == 'y') {
+                                std::cout << "Deleting....\n";
+                                for(int i = 0; i < foundExes.size(); i++) {
+                                    const std::string &temp = foundExes[i];
+                                    if(DeleteFileA(temp.c_str())) {
+                                        std::cout << "Deleted: " << temp << std::endl;
+                                    } else {
+                                        std::cout << "Failed to delete: " << temp << std::endl;
+                                    }
+                                }
+                                break;
+                            } else {
+                                break;
+                            }
+                        }
+
                         break;
                     }
                 }

@@ -11,5 +11,6 @@
 
 class Scan {
 public:
-    std::vector<std::string> findExe(const std::vector<std::string> &suspiciousList, const std::string &path, char result[MAX_PATH], const std::string &flags);
+    bool findExe(const std::vector<std::string> &suspiciousList, const std::string &path, 
+        char result[MAX_PATH], const std::string &flags, std::vector<std::string> &foundExes);
 };

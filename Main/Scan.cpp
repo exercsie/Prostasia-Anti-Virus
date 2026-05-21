@@ -1,18 +1,21 @@
 #include "Scan.h"
 
-std::vector<std::string> Scan::findExe(const std::vector<std::string> &suspiciousList, const std::string &path, char result[MAX_PATH], const std::string &flags) {
-    std::vector<std::string> listOfFoundFiles;
+bool Scan::findExe(const std::vector<std::string> &suspiciousList, const std::string &path, char result[MAX_PATH], const std::string &flags, std::vector<std::string> &foundExes) {
+    bool found = false;
+    std::string newPath = path + "\\";
     std::cout << "-------------------------------\n";
     std::cout << "Searching...\n";
     for(int i = 0; i < suspiciousList.size(); i++) {
         const std::string &exe = suspiciousList[i];
-        HINSTANCE find = FindExecutableA(exe.c_str(), path.c_str(), result);
+        HINSTANCE find = FindExecutableA(exe.c_str(), newPath.c_str(), result);
 
         if((INT_PTR)find > 32) {
             std::cout << "Found the file: " << exe << " in: " << result << std::endl;
-            listOfFoundFiles.push_back(exe);
+            foundExes.push_back(newPath + exe);
+            found = true;
         } else if(flags == "-dev") {
             int error = (INT_PTR)find;
+            //std::cout << "error code: " << error << std::endl;
             switch(error) {
                 case 2: {
                     std::cout << exe << " was not found.\n";
@@ -20,7 +23,7 @@ std::vector<std::string> Scan::findExe(const std::vector<std::string> &suspiciou
                 }
 
                 case 3: {
-                    std::cout << path << " is invalid.\n";
+                    std::cout << newPath << " is invalid.\n";
                     break;
                 }
 
@@ -38,9 +41,5 @@ std::vector<std::string> Scan::findExe(const std::vector<std::string> &suspiciou
         }
     }
 
-    /*for(auto &search : listOfFoundFiles) {
-        std::cout << search << std::endl;
-    }*/
-
-    return listOfFoundFiles;
+    return found;
 }
