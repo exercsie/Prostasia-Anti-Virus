@@ -24,14 +24,36 @@ bool Alerts::removeSuspiciousProgram(const std::string &path, std::vector<std::s
 	int sizeOfOriginalVec = temp.size();
 	v.removeFromVector(list, fileToRemove);
 	for(const std::string &program : list) {
-		if(!program.empty()) {
-			file << program << std::endl;
-		}
+		file << program << std::endl;
 	}
 
 	if(sizeOfOriginalVec > list.size()) {
 		return true;
 	}
+	return false;
+}
+
+bool Alerts::addSuspiciousProgram(const std::string &path, std::vector<std::string> &list, const std::string &fileToAdd) {
+	Vector v;
+
+	if(fileToAdd.size() <= 4 || fileToAdd.substr(fileToAdd.size() - 4) != ".exe") {
+		return false;
+	}
+
+	std::ofstream file(path);
+
+	std::vector<std::string> temp = list;
+	int sizeOfOriginalVec = temp.size();
+	list.push_back(fileToAdd);
+
+	for(const std::string &program : list) {
+		file << program << std::endl;
+	}
+
+	if(list.size() > sizeOfOriginalVec) {
+		return true;
+	}
+
 	return false;
 }
 

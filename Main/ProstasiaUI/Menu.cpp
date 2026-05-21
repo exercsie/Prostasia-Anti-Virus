@@ -1,20 +1,24 @@
 #include <iostream>
+#include <string>
+#include <sstream>
 #include "Menu.h"
 #include "../RunningProcesses.h"
 #include "../ProcessMonitor/Monitor.h"
 #include "../Vector.h"
 #include "../Load.h"
+#include "../Scan.h"
 void Menu::options() {
     RunningProcesses rp;
     Monitor m;
     Vector v;
     Load ld;
     Alerts alert;
+    Scan sc;
 
     int option;
     while(true) {
         std::cout << "-------------------------------\n";
-        std::cout << "Welcome to Prostasia Anti-Virus C++ 1.1\n";
+        std::cout << "Welcome to Prostasia Anti-Virus C++ 1.2\n";
         std::cout << "-------------------------------\n";
         std::cout << "0 - Exit\n";
         std::cout << "1 - Toggle process monitor\n";
@@ -78,6 +82,23 @@ void Menu::options() {
                     }
                     case 1: {
 
+                        std::string fileToAdd;
+                        std::vector<std::string> suspiciousList = ld.loadSuspiciousPrograms(ld.loadResourcePath());
+                        std::cout << "Enter the suspicious file to add: ";
+                        std::cin.ignore(1000, '\n');
+                        std::getline(std::cin, fileToAdd);
+                        if(fileToAdd.empty()) {
+                            break;
+                        }
+
+                        std::cout << "Adding file: " << fileToAdd << "...\n";
+                        bool add = alert.addSuspiciousProgram(ld.loadResourcePath(), suspiciousList, fileToAdd);
+                        if(add) {
+                            std::cout << "File: " << fileToAdd << " added\n";
+                            rp.restartProgram("Monitor.exe");
+                            break;
+                        }
+                        std::cout << "File: " << fileToAdd << " is not a valid name\n";
                         break;
                     }
 

@@ -1,5 +1,5 @@
 victim.exe
 scvhost.exe
-powershell.exe
 explore.exe
 malware.exe
+powershell.exe
