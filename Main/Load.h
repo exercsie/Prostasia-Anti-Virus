@@ -11,9 +11,12 @@
 #include <vector>
 #include <fstream>
 
-class RunningProcesses {
+class Load {
 public:
-    std::vector<std::string> getRunningProcesses();
-    DWORD getPID(const std::string &process);
-    void killProcess(const std::string &process);
+    char* loadProstasiaUIPath();
+    char* loadMonitorPath();
+    std::string loadResourcePath();
+    std::vector<std::string> loadSuspiciousPrograms(const std::string &fileName);
+    
+
 };

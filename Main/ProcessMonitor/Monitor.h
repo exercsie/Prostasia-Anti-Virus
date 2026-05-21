@@ -13,12 +13,13 @@
 #include "../RunningProcesses.h"
 #include "../Vector.h"
 #include "../Alerts.h"
+#include "../Load.h"
 #include <atomic>
 
 class Monitor {
 public:
     void runOnStartup(const std::string &programName, const std::string &programPath);
     void mainAlert();
-    bool isProgramMonitorRunning();
+    bool isProgramMonitorRunning(const std::string &programName);
     char* getMonitorPath();
 };

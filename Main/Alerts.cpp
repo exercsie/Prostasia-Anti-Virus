@@ -3,33 +3,6 @@
 int Alerts::alertBox(const char *text, const char *title, UINT flags) {
 	return MessageBoxA(NULL, text, title, flags);
 }
-
-std::vector<std::string> Alerts::loadSuspiciousPrograms(const std::string &fileName) {
-	std::vector<std::string> programs;
-
-	std::ifstream file(fileName);
-
-	if(!file.is_open()) {
-		std::cout << "The file " << fileName << " is already open!\n";
-		return{};
-	}
-
-	std::string line;
-
-	while(std::getline(file, line)) {
-		if(!line.empty()) {
-			if(line.back() == '\r') {
-				line.pop_back();
-			}
-			programs.push_back(line);
-		}
-	}
-
-	file.close();
-
-	return programs;
-}
-
 bool Alerts::isSuspicious(const std::vector<std::string> &fileName, const std::vector<std::string> &suspiciousList, std::string &outName) {
 	for(int i = 0; i < fileName.size(); i++) {
 		for(int j = 0; j < suspiciousList.size(); j++) {
@@ -43,10 +16,16 @@ bool Alerts::isSuspicious(const std::vector<std::string> &fileName, const std::v
 	return false;
 }
 
-void Alerts::saveSuspiciousProgram(const std::string &path, const std::vector<std::string> &list) {
+void Alerts::removeSuspiciousProgram(const std::string &path, const std::vector<std::string> &list) {
 	std::ofstream file(path);
 
 	for(const std::string &program : list) {
 		file << program << std::endl;
+	}
+}
+
+void Alerts::listSuspiciousFiles(const std::vector<std::string> &list) {
+	for(int i = 0; i < list.size(); i++) {
+		std::cout << list.at(i) << std::endl;
 	}
 }

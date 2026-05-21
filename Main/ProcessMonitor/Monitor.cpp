@@ -10,26 +10,11 @@ void Monitor::runOnStartup(const std::string &programName, const std::string &pr
     RegCloseKey(key);
 }
 
-char* Monitor::getMonitorPath() {
-	RunningProcesses rp;
-    static std::string fullPath;
-    char *exePath = rp.getProstasiaUIPath();
-    
-	std::string exeDir = std::string(exePath);
-	exeDir = exeDir.substr(0, exeDir.find_last_of("\\/"));
-	std::string restOfDir = "\\..\\ProcessMonitor\\Monitor.exe";
-
-    fullPath = exeDir + restOfDir;
-    std::cout << "path: " << fullPath << std::endl;
-
-    return fullPath.data();
-}
-
-bool Monitor::isProgramMonitorRunning() {
+bool Monitor::isProgramMonitorRunning(const std::string &programName) {
 	RunningProcesses rp;
     std::vector<std::string> proc = rp.getRunningProcesses();
     for(int i = 0; i < proc.size(); i++) {
-        if("Monitor.exe" == proc[i]) {
+        if(programName == proc[i]) {
             return true;
         }
     }
@@ -37,26 +22,28 @@ bool Monitor::isProgramMonitorRunning() {
     return false;
 }
 
+char* Monitor::getMonitorPath() {
+    Load ld;
+    return ld.loadMonitorPath();
+}
+
 void Monitor::mainAlert() {
 	std::atomic<bool> alertActive = false;
 
-	RunningProcesses processes;
+	RunningProcesses rp;
 	Vector v;
     Alerts alert;
+	Load ld;
 	std::string suspiciousProgram;
 
-	char *exePath = processes.getProstasiaUIPath();
-	std::string exeDir = std::string(exePath);
-	exeDir = exeDir.substr(0, exeDir.find_last_of("\\/"));
-	std::string resourcePath = exeDir + "\\..\\..\\Resources\\Suspicious-Programs.txt";
-
-	std::vector<std::string> suspiciousList = alert.loadSuspiciousPrograms(resourcePath);
+	std::string resourcePath = ld.loadResourcePath();
+	std::vector<std::string> suspiciousList = ld.loadSuspiciousPrograms(resourcePath);
 	std::vector<std::string> temp = suspiciousList;
 
 	// run on startup
-	runOnStartup("Prostasia", exePath);
+	runOnStartup("ProstasiaMonitor", ld.loadMonitorPath());
 	while(true) {
-		bool found = alert.isSuspicious(processes.getRunningProcesses(), temp, suspiciousProgram);
+		bool found = alert.isSuspicious(rp.getRunningProcesses(), temp, suspiciousProgram);
 		if(found) {
 			alertActive = true;
 			std::string message = suspiciousProgram + " is suspicious, do you want to close it?";
@@ -64,7 +51,7 @@ void Monitor::mainAlert() {
 			switch(answer) {
 				case IDYES: {
 					alertActive = false;
-					processes.killProcess(suspiciousProgram);
+					rp.killProcess(suspiciousProgram);
 					break;
 				}
 
@@ -77,7 +64,7 @@ void Monitor::mainAlert() {
 							v.removeFromVector(suspiciousList, suspiciousProgram);
 							v.removeFromVector(temp, suspiciousProgram);
 
-							alert.saveSuspiciousProgram(resourcePath, suspiciousList);
+							alert.removeSuspiciousProgram(resourcePath, suspiciousList);
 							break;
 						}
 
