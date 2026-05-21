@@ -1,4 +1,5 @@
 #include "RunningProcesses.h"
+#include "Load.h"
 
 std::vector<std::string> RunningProcesses::getRunningProcesses() {
     std::vector<std::string> processes;
@@ -56,4 +57,10 @@ void RunningProcesses::killProcess(const std::string &process) {
     HANDLE p = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
     TerminateProcess(p, 0);
     CloseHandle(p);
+}
+
+void RunningProcesses::restartProgram(const std::string &programName) {
+    Load ld;
+    killProcess(programName);
+    ShellExecuteA(NULL, "open", ld.loadMonitorPath(), NULL, NULL, SW_SHOW);
 }

@@ -68,6 +68,8 @@ void Menu::options() {
                 std::cout << "0 - Go back\n";
                 std::cout << "1 - Add a suspicious file\n";
                 std::cout << "2 - Remove a suspicious file\n";
+                std::cout << "3 - List suspicious files\n";
+                std::cout << "4 - Open suspicious text file\n";
                 std::cin >> answer;
 
                 switch(answer) {
@@ -95,9 +97,33 @@ void Menu::options() {
                         }
 
                         std::cout << "Removing file: " << fileToRemove << "...\n";
+                        bool removed = alert.removeSuspiciousProgram(ld.loadResourcePath(), suspiciousList, fileToRemove);
                         v.removeFromVector(suspiciousList, fileToRemove);
-                        alert.removeSuspiciousProgram(ld.loadResourcePath(), suspiciousList);
-                        std::cout << "File: " << fileToRemove << " removed\n";
+                        if(removed) {
+                            std::cout << "File: " << fileToRemove << " removed\n";
+                            rp.restartProgram("Monitor.exe");
+                            break;
+                        }
+                        std::cout << "File: " << fileToRemove << " could not be found\n";
+
+                        break;
+                    }
+
+                    case 3: {
+                        std::cout << "List of the suspicious files: \n";
+                        std::cout << "-------------------------------\n";
+                        alert.listSuspiciousFiles(ld.loadSuspiciousPrograms(ld.loadResourcePath()));
+                        std::cout << std::endl;
+                        break;
+                    }
+
+                    case 4: {
+                        std::cout << "Opening " << ld.loadResourcePath() << "...\n";
+                        HINSTANCE verify = ShellExecuteA(NULL, "open", ld.loadResourcePath().c_str(), NULL, NULL, SW_SHOW);
+                        if(!((INT_PTR)verify > 32)) {
+                            std::cout << "Failed to open " << ld.loadResourcePath() << std::endl;
+                        }
+
                         break;
                     }
                 }
@@ -106,7 +132,6 @@ void Menu::options() {
             }
 
             case 3: {
-
                 break;
             }
         }

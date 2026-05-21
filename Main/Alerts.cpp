@@ -16,12 +16,23 @@ bool Alerts::isSuspicious(const std::vector<std::string> &fileName, const std::v
 	return false;
 }
 
-void Alerts::removeSuspiciousProgram(const std::string &path, const std::vector<std::string> &list) {
+bool Alerts::removeSuspiciousProgram(const std::string &path, std::vector<std::string> &list, const std::string &fileToRemove) {
+	Vector v;
 	std::ofstream file(path);
 
+	std::vector<std::string> temp = list;
+	int sizeOfOriginalVec = temp.size();
+	v.removeFromVector(list, fileToRemove);
 	for(const std::string &program : list) {
-		file << program << std::endl;
+		if(!program.empty()) {
+			file << program << std::endl;
+		}
 	}
+
+	if(sizeOfOriginalVec > list.size()) {
+		return true;
+	}
+	return false;
 }
 
 void Alerts::listSuspiciousFiles(const std::vector<std::string> &list) {

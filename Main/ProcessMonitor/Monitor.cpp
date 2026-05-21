@@ -61,10 +61,8 @@ void Monitor::mainAlert() {
 					switch(answer1) {
 						case IDYES: {
 							alertActive = false;
-							v.removeFromVector(suspiciousList, suspiciousProgram);
 							v.removeFromVector(temp, suspiciousProgram);
-
-							alert.removeSuspiciousProgram(resourcePath, suspiciousList);
+							alert.removeSuspiciousProgram(resourcePath, suspiciousList, suspiciousProgram);
 							break;
 						}
 

@@ -18,7 +18,6 @@ char* Load::loadMonitorPath() {
 	std::string restOfDir = "\\..\\ProcessMonitor\\Monitor.exe";
 
     fullPath = exeDir + restOfDir;
-    std::cout << "path: " << fullPath << std::endl;
 
     return fullPath.data();
 }

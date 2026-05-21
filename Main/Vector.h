@@ -13,5 +13,5 @@
 
 class Vector {
 public:
-    std::vector<std::string> removeFromVector(std::vector<std::string> &v, std::string &key);
+    void removeFromVector(std::vector<std::string> &v, const std::string &key);
 };
