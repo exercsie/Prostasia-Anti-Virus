@@ -153,14 +153,71 @@ void Menu::options() {
             }
 
             case 3: {
-                break;
+                int option;
+                std::string path, fileName, flags;
+                std::cout << "Do you want to search for an individual file or through the suspicious list text file?\n";
+                std::cout << "0 - Go back\n";
+                std::cout << "1 - Specific file\n";
+                std::cout << "2 - Suspicious list file\n";
+                std::cin >> option;
+
+                switch(option) {
+                    case 0: {
+                        break;
+                    }
+                    
+                    case 1: {
+                        char result[MAX_PATH];
+
+                        std::cout << "Enter path, file name, flags(optional[-dev]): ";
+
+                        std::string line;
+                        std::cin.ignore(1000, '\n');
+                        std::getline(std::cin, line);
+
+                        std::istringstream stream(line);
+
+                        stream >> path >> fileName >> flags;
+
+                        if(path.empty() || fileName.empty()) {
+                            std::cout << "Please enter both the path and the file name\n";
+                            break;
+                        }
+
+                        std::vector<std::string> fileNameVec;
+                        fileNameVec.push_back(fileName);
+
+                        sc.findExe(fileNameVec, path, result, flags);
+                        break;
+                    }
+
+                    case 2: {
+                        char result[MAX_PATH];
+
+                        std::cout << "Enter path, flags(optional[-dev]): ";
+
+                        std::string line;
+                        std::cin.ignore(1000, '\n');
+                        std::getline(std::cin, line);
+
+                        std::istringstream stream(line);
+
+                        stream >> path >> flags;
+
+                        if(path.empty()) {
+                            std::cout << "Please enter both the path and the file name\n";
+                            break;
+                        }
+
+                        sc.findExe(ld.loadSuspiciousPrograms(ld.loadResourcePath()), path, result, flags);
+                        break;
+                    }
+                }
             }
         }
-
-
-
-
     }
 
-    
+
+
+
 }
