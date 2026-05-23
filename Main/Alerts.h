@@ -12,6 +12,7 @@
 #include "Vector.h"
 #include <atomic>
 #include <algorithm>
+#include <unordered_set>
 
 class Alerts {
 public:

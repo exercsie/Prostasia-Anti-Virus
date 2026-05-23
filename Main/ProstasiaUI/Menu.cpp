@@ -188,7 +188,7 @@ void Menu::options() {
 
                         if(fileName.size() <= 4 || fileName.substr(fileName.size() - 4) != ".exe") {
                             std::cout << "Please input a valid .exe\n";
-                            break;
+                            continue;
                         }
 
                         if(path.empty() || fileName.empty()) {

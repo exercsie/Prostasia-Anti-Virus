@@ -3,13 +3,14 @@
 int Alerts::alertBox(const char *text, const char *title, UINT flags) {
 	return MessageBoxA(NULL, text, title, flags);
 }
+
 bool Alerts::isSuspicious(const std::vector<std::string> &fileName, const std::vector<std::string> &suspiciousList, std::string &outName) {
-	for(int i = 0; i < fileName.size(); i++) {
-		for(int j = 0; j < suspiciousList.size(); j++) {
-			if(fileName[i] == suspiciousList[j]) {
-				outName = suspiciousList[j];
-				return true;
-			}
+	std::unordered_set<std::string> suspiciousSet(suspiciousList.begin(), suspiciousList.end());
+
+	for(const auto &file : fileName) {
+		if(suspiciousSet.contains(file)) {
+			outName = file;
+			return true;
 		}
 	}
 
@@ -24,13 +25,10 @@ bool Alerts::removeSuspiciousProgram(const std::string &path, std::vector<std::s
 	int sizeOfOriginalVec = temp.size();
 	v.removeFromVector(list, fileToRemove);
 	for(const std::string &program : list) {
-		file << program << std::endl;
+		file << program << '\n';
 	}
 
-	if(sizeOfOriginalVec > list.size()) {
-		return true;
-	}
-	return false;
+	return sizeOfOriginalVec > list.size();
 }
 
 bool Alerts::addSuspiciousProgram(const std::string &path, std::vector<std::string> &list, const std::string &fileToAdd) {
@@ -47,18 +45,14 @@ bool Alerts::addSuspiciousProgram(const std::string &path, std::vector<std::stri
 	list.push_back(fileToAdd);
 
 	for(const std::string &program : list) {
-		file << program << std::endl;
+		file << program << '\n';
 	}
 
-	if(list.size() > sizeOfOriginalVec) {
-		return true;
-	}
-
-	return false;
+	return list.size() > sizeOfOriginalVec;
 }
 
 void Alerts::listSuspiciousFiles(const std::vector<std::string> &list) {
-	for(int i = 0; i < list.size(); i++) {
-		std::cout << list.at(i) << std::endl;
+	for(const auto &e : list) {
+		std::cout << e << '\n';
 	}
 }

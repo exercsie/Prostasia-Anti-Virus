@@ -3,3 +3,5 @@ scvhost.exe
 malware.exe
 crash.exe
 prefix.exe
+array.exe
+test.exe
