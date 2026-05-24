@@ -188,7 +188,7 @@ void Menu::options() {
 
                         if(fileName.size() <= 4 || fileName.substr(fileName.size() - 4) != ".exe") {
                             std::cout << "Please input a valid .exe\n";
-                            continue;
+                            break;
                         }
 
                         if(path.empty() || fileName.empty()) {
@@ -210,18 +210,17 @@ void Menu::options() {
 
                             if(answer == 'Y' || answer == 'y') {
                                 std::cout << "Deleting....\n";
-                                for(int i = 0; i < fileNameVec.size(); i++) {
-                                    const std::string &temp = foundExes[i];
-                                    if(DeleteFileA(temp.c_str())) {
-                                        std::cout << "Deleted: " << temp << std::endl;
-                                    } else {
-                                        std::cout << "Failed to delete: " << temp << std::endl;
-                                    }
+                                const std::string &temp = foundExes[0];
+                                if(DeleteFileA(temp.c_str())) {
+                                    std::cout << "Deleted: " << temp << std::endl;
+                                } else {
+                                    std::cout << "Failed to delete: " << temp << std::endl;
                                 }
+                                
                                 break;
-                            } else {
-                                break;
-                            }
+                            } 
+
+                            break;
                         }
 
                         break;

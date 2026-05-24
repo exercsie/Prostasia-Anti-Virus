@@ -5,3 +5,4 @@ crash.exe
 prefix.exe
 array.exe
 test.exe
+powershell.exe

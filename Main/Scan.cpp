@@ -5,12 +5,12 @@ bool Scan::findExe(const std::vector<std::string> &suspiciousList, const std::st
     std::string newPath = path + "\\";
     std::cout << "-------------------------------\n";
     std::cout << "Searching...\n";
-    for(int i = 0; i < suspiciousList.size(); i++) {
-        const std::string &exe = suspiciousList[i];
+    for(const auto &suspiciousFile : suspiciousList) {
+        const std::string &exe = suspiciousFile;
         HINSTANCE find = FindExecutableA(exe.c_str(), newPath.c_str(), result);
 
         if((INT_PTR)find > 32) {
-            std::cout << "Found the file: " << exe << " in: " << result << std::endl;
+            std::cout << "Found the file: " << exe << " in: " << result << '\n';
             foundExes.push_back(newPath + exe);
             found = true;
         } else if(flags == "-dev") {
