@@ -11,7 +11,7 @@ class Log {
 public:
     void addToLog(std::unordered_map<std::string, std::vector<std::string>> &log, 
         const std::string &programName, const std::vector<std::string> &info);
-    void displayLog(std::unordered_map<std::string, std::vector<std::string>> &log);
+    void saveLog(const std::unordered_map<std::string, std::vector<std::string>> &log, const std::string &path);
     std::vector<std::string> getInfo(const std::string &actionTaken, const std::string &suspiciousPath);
     std::string getTime();
     std::string getDate();

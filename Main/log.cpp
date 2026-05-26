@@ -1,13 +1,18 @@
 #include "log.h"
 
-void Log::displayLog(std::unordered_map<std::string, std::vector<std::string>> &log) {
-    for(const auto &[first, inLog] : log) {
-        std::cout << first << " -> ";
-        for(const auto &second : inLog) {
-            std::cout << second << " ";
+void Log::saveLog(const std::unordered_map<std::string, std::vector<std::string>> &log, const std::string &path) {
+    std::ofstream file(path, std::ios::app);
+
+    for(const auto &[programName, info] : log) {
+        file << programName << " | ";
+        for(const auto &entries : info) {
+            file << entries << " | ";
         }
-        std::cout << '\n';
+
+        file << '\n';
     }
+
+    file.close();
 }
 
 void Log::addToLog(std::unordered_map<std::string, std::vector<std::string>> &log, 
@@ -31,7 +36,7 @@ std::string Log::getTime() {
     SYSTEMTIME t;
 
     int hour, minute, seconds;
-    GetSystemTime(&t);
+    GetLocalTime(&t);
     hour = t.wHour;
     minute = t.wMinute;
     seconds = t.wSecond;
@@ -59,7 +64,7 @@ std::string Log::getDate() {
     monthStr = std::to_string(month);
     yearStr = std::to_string(year);
 
-    std::string date = dayStr + ":" + monthStr + ":" + yearStr;
+    std::string date = dayStr + "/" + monthStr + "/" + yearStr;
     return date;
 }
 

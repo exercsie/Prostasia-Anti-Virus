@@ -53,9 +53,9 @@ void Monitor::mainAlert() {
 			int answer = alert.alertBox(message.c_str(), "Suspicious program", MB_ICONWARNING | MB_TOPMOST | MB_SETFOREGROUND  | MB_YESNO);
 			switch(answer) {
 				case IDYES: {
-					info = lg.getInfo("TERMINATED", rp.getSuspiciousProgramPath(suspiciousProgram));\
+					info = lg.getInfo("TERMINATED", rp.getSuspiciousProgramPath(suspiciousProgram));
 					lg.addToLog(log, suspiciousProgram, info);
-					lg.displayLog(log);
+					lg.saveLog(log, "../../logs/log.txt");
 					alertActive = false;
 					rp.killProcess(suspiciousProgram);
 					break;
@@ -68,7 +68,7 @@ void Monitor::mainAlert() {
 						case IDYES: {
 							info = lg.getInfo("MADE_EXCEPTION", rp.getSuspiciousProgramPath(suspiciousProgram));
 							lg.addToLog(log, suspiciousProgram, info);
-							lg.displayLog(log);
+							lg.saveLog(log, "../../logs/log.txt");
 							alertActive = false;
 							v.removeFromVector(temp, suspiciousProgram);
 							alert.removeSuspiciousProgram(resourcePath, suspiciousList, suspiciousProgram);
@@ -78,7 +78,7 @@ void Monitor::mainAlert() {
 						case IDNO: {
 							info = lg.getInfo("IGNORED", rp.getSuspiciousProgramPath(suspiciousProgram));
 							lg.addToLog(log, suspiciousProgram, info);
-							lg.displayLog(log);
+							lg.saveLog(log, "../../logs/log.txt");
 							alertActive = false;
 							v.removeFromVector(temp, suspiciousProgram);
 							break;
