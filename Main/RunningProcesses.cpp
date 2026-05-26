@@ -51,6 +51,22 @@ DWORD RunningProcesses::getPID(const std::string &process) {
     return 0;
 }
 
+std::string RunningProcesses::getSuspiciousProgramPath(const std::string &programName) {
+    DWORD pid = getPID(programName);
+
+    HANDLE program = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
+
+    char path[MAX_PATH];
+    DWORD size = MAX_PATH;
+
+    if(QueryFullProcessImageNameA(program, 0, path, &size)) {
+        CloseHandle(program);
+        return std::string(path);
+    }
+
+    CloseHandle(program);
+    return "";
+}
 void RunningProcesses::killProcess(const std::string &process) {
     DWORD pid = getPID(process);
 

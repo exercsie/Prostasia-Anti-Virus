@@ -14,7 +14,9 @@
 #include "../Vector.h"
 #include "../Alerts.h"
 #include "../Load.h"
+#include "../Log.h"
 #include <atomic>
+#include <unordered_map>
 
 class Monitor {
 public:

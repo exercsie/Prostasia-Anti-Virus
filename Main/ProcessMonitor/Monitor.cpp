@@ -30,6 +30,7 @@ char* Monitor::getMonitorPath() {
 void Monitor::mainAlert() {
 	std::atomic<bool> alertActive = false;
 
+	Log lg;
 	RunningProcesses rp;
 	Vector v;
     Alerts alert;
@@ -39,6 +40,8 @@ void Monitor::mainAlert() {
 	std::string resourcePath = ld.loadResourcePath();
 	std::vector<std::string> suspiciousList = ld.loadSuspiciousPrograms(resourcePath);
 	std::vector<std::string> temp = suspiciousList;
+	std::unordered_map<std::string, std::vector<std::string>> log;
+	std::vector<std::string> info;
 
 	// run on startup
 	runOnStartup("ProstasiaMonitor", ld.loadMonitorPath());
@@ -50,6 +53,9 @@ void Monitor::mainAlert() {
 			int answer = alert.alertBox(message.c_str(), "Suspicious program", MB_ICONWARNING | MB_TOPMOST | MB_SETFOREGROUND  | MB_YESNO);
 			switch(answer) {
 				case IDYES: {
+					info = lg.getInfo("TERMINATED", rp.getSuspiciousProgramPath(suspiciousProgram));\
+					lg.addToLog(log, suspiciousProgram, info);
+					lg.displayLog(log);
 					alertActive = false;
 					rp.killProcess(suspiciousProgram);
 					break;
@@ -60,6 +66,9 @@ void Monitor::mainAlert() {
 					int answer1 = alert.alertBox(message1.c_str(), "Suspicious program", MB_ICONQUESTION | MB_TOPMOST | MB_SETFOREGROUND  | MB_YESNO);
 					switch(answer1) {
 						case IDYES: {
+							info = lg.getInfo("MADE_EXCEPTION", rp.getSuspiciousProgramPath(suspiciousProgram));
+							lg.addToLog(log, suspiciousProgram, info);
+							lg.displayLog(log);
 							alertActive = false;
 							v.removeFromVector(temp, suspiciousProgram);
 							alert.removeSuspiciousProgram(resourcePath, suspiciousList, suspiciousProgram);
@@ -67,6 +76,9 @@ void Monitor::mainAlert() {
 						}
 
 						case IDNO: {
+							info = lg.getInfo("IGNORED", rp.getSuspiciousProgramPath(suspiciousProgram));
+							lg.addToLog(log, suspiciousProgram, info);
+							lg.displayLog(log);
 							alertActive = false;
 							v.removeFromVector(temp, suspiciousProgram);
 							break;

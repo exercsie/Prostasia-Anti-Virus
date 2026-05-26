@@ -7,6 +7,7 @@
 #include "../Vector.h"
 #include "../Load.h"
 #include "../Scan.h"
+#include "../Log.h"
 void Menu::options() {
     RunningProcesses rp;
     Monitor m;
@@ -14,6 +15,7 @@ void Menu::options() {
     Load ld;
     Alerts alert;
     Scan sc;
+    Log lg;
 
     int option;
     while(true) {

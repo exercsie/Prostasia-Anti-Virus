@@ -17,6 +17,4 @@ public:
     char* loadMonitorPath();
     std::string loadResourcePath();
     std::vector<std::string> loadSuspiciousPrograms(const std::string &fileName);
-    
-
 };

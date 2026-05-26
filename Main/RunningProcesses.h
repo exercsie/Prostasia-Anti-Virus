@@ -17,4 +17,5 @@ public:
     DWORD getPID(const std::string &process);
     void killProcess(const std::string &process);
     void restartProgram(const std::string &programName);
+    std::string getSuspiciousProgramPath(const std::string &programName);
 };
