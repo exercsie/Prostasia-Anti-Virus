@@ -20,7 +20,7 @@ void Menu::options() {
     int option;
     while(true) {
         std::cout << "-------------------------------\n";
-        std::cout << "Welcome to Prostasia Anti-Virus C++ 1.2\n";
+        std::cout << "Welcome to Prostasia Anti-Virus C++ 1.3\n";
         std::cout << "-------------------------------\n";
         std::cout << "0 - Exit\n";
         std::cout << "1 - Toggle process monitor\n";

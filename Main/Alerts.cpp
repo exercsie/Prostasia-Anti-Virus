@@ -21,8 +21,7 @@ bool Alerts::removeSuspiciousProgram(const std::string &path, std::vector<std::s
 	Vector v;
 	std::ofstream file(path);
 
-	std::vector<std::string> temp = list;
-	int sizeOfOriginalVec = temp.size();
+	int sizeOfOriginalVec = list.size();
 	v.removeFromVector(list, fileToRemove);
 	for(const std::string &program : list) {
 		file << program << '\n';
@@ -40,8 +39,7 @@ bool Alerts::addSuspiciousProgram(const std::string &path, std::vector<std::stri
 
 	std::ofstream file(path);
 
-	std::vector<std::string> temp = list;
-	int sizeOfOriginalVec = temp.size();
+	int sizeOfOriginalVec = list.size();
 	list.push_back(fileToAdd);
 
 	for(const std::string &program : list) {

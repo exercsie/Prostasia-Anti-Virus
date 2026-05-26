@@ -43,3 +43,11 @@ bool Scan::findExe(const std::vector<std::string> &suspiciousList, const std::st
 
     return found;
 }
+
+bool Scan::scanMultiplePaths(const std::vector<std::string> &suspiciousList, const std::string &rootDir) {
+    char result[MAX_PATH];
+    for(const auto &suspiciousFile : suspiciousList) {
+        const std::string &exe = suspiciousFile;
+        HINSTANCE find = FindExecutableA(exe.c_str(), rootDir.c_str(), result);
+    }
+}
